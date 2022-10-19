@@ -1,0 +1,27 @@
+{
+  "name": "pranageo-test",
+  "version": "0.0.1",
+  "description": "Employment test for PranaGeo",
+  "main": "./src/app.js",
+  "scripts": {
+    "test": "npm test",
+    "lint": "eslint",
+    "readfile": "node ./src/init.js",
+    "dev": "nodemon ./src/app.js"
+  },
+  "keywords": [
+    "test",
+    "pranageo",
+    "challenge",
+    "coding"
+  ],
+  "author": "Umar O. Adejoh",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.25.0",
+    "nodemon": "^2.0.20"
+  }
+}
