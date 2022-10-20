@@ -18,6 +18,8 @@ To run the server separately:
 
 This would start the local development server for the backend, running on port 8000;
 
+> To run the server tests: *npm test* in the server folder.
+
 ## Client
 The default value of the backend url in the client *.env* is *http://localhost:8000/api/v1*
 
