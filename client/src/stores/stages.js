@@ -34,5 +34,23 @@ export const useStagesStore = defineStore("stages", () => {
     }
   };
 
-  return { projectName, stages, getStages, updateCell };
+  const pullRepo = async () => {
+    try {
+      const { data } = await axios.post("/gitPull", {
+        projectName: projectName.value,
+      });
+      const updatedFiles = data.updatedFiles;
+      console.log(data.updatedFiles);
+      Object.keys(updatedFiles).forEach((updatedFile) => {
+        const fileKey = updatedFile.split("/")[1];
+        stages.value[updatedFile.split("/")[0]][fileKey] = JSON.parse(
+          data.updatedFiles[updatedFile]
+        );
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return { projectName, stages, getStages, updateCell, pullRepo };
 });

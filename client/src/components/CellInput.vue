@@ -1,10 +1,10 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useStagesStore } from "../stores/stages";
 
 const props = defineProps({
   content: {
-    type: Object,
+    type: String,
     required: true,
   },
   contentKey: {
@@ -16,7 +16,15 @@ const props = defineProps({
     required: true,
   },
 });
-const textValue = ref(JSON.stringify(props.content));
+
+const textValue = ref(props.content);
+
+watch(
+  () => props.content,
+  (newValue) => {
+    textValue.value = newValue;
+  }
+);
 
 const { updateCell } = useStagesStore();
 const commitChange = () => {

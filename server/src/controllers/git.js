@@ -1,11 +1,17 @@
+const { readChangedFiles } = require("../utils/parseStages");
 const { pull, commit, push } = require("./gitFunctions");
 
 exports.gitPull = async (req, res, next) => {
-  const { branch } = req.body;
+  const { branch, projectName } = req.body;
   try {
-    await pull(branch ? branch : null);
+    const result = await pull(branch ? branch : null);
+    const files = result.split('\n').filter(el => el.includes('.json'));
+    const fileNames = files.map(el => el.split('|')[0].trim());
+    const updatedFiles = await readChangedFiles(fileNames, projectName);
+
     res.status(200).json({
       message: 'Pull successful',
+      updatedFiles,
     });
   } catch (err) {
     if (!err.statusCode) {
