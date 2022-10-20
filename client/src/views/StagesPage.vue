@@ -31,13 +31,22 @@ const sortedCells = computed(() => {
     return null;
   }
 });
+
+const pullRepo = async () => {
+  await stagesStore.pullRepo();
+}
 </script>
 
 <template>
   <div class="p-4">
-    <h2 class="font-nunito text-xl font-semibold text-center">
-      ProjectName:&nbsp;{{ projectName }}
-    </h2>
+    <div class="w-full flex flex-row justify-between items-center">
+      <h2 class="font-bebas text-3xl font-semibold">
+        ProjectName:&nbsp;{{ projectName }}
+      </h2>
+      <div class="w-[20%]">
+        <base-button @click="pullRepo" buttonType="button">Pull</base-button>
+      </div>
+    </div>
     <h3 class="font-nunito text-lg font-semibold mb-3">Stages:</h3>
     <div v-for="(stage, index) in stages" :key="index">
       <a
@@ -57,7 +66,7 @@ const sortedCells = computed(() => {
             {{ cell.replace(".json", "") }}:
           </h5>
           <cell-input
-            :content="stages[index][cell]"
+            :content="JSON.stringify(stages[index][cell])"
             :contentKey="cell"
             :stageName="index"
           ></cell-input>

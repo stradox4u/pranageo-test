@@ -1,8 +1,10 @@
 const { promisify } = require("util");
+const path = require("path");
 const { readFile, readdir } = require("fs");
 
 const readFilePromisified = promisify(readFile);
 const readdirPromisified = promisify(readdir);
+const username = process.env.USERNAME;
   
 exports.parse = async (stageNames, projectPath) => {
   const stageNamesObject = {};
@@ -43,4 +45,12 @@ const readFiles = async (fileNames, path) => {
   }
   await Promise.all(promisesArray);
   return content;
+}
+
+exports.readChangedFiles = async (fileNames, projectName) => {
+  const userPath = path.join(__dirname, '../', '../', '../', username);
+  const projectPath = `${userPath}/${projectName}`;
+
+  const result = await readFiles(fileNames, projectPath);
+  return result;
 }
