@@ -40,7 +40,6 @@ export const useStagesStore = defineStore("stages", () => {
         projectName: projectName.value,
       });
       const updatedFiles = data.updatedFiles;
-      console.log(data.updatedFiles);
       Object.keys(updatedFiles).forEach((updatedFile) => {
         const fileKey = updatedFile.split("/")[1];
         stages.value[updatedFile.split("/")[0]][fileKey] = JSON.parse(

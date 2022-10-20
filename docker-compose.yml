@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+  pranageo_client:
+    container_name: pranageo_client
+    build:
+      context: ./client
+    ports:
+      - 5173:5173
+    volumes:
+      - ./client:/app/
+    command: npm run dev
+  pranageo_server:
+    container_name: pranageo_server
+    build:
+      context: ./server
+    volumes:
+      - ./server:/app/
+      # Map your /username directory to a volume
+      - ./umar:/umar/
+    ports:
+      - 8000:8000
+    command: npm run dev
