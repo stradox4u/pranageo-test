@@ -1,16 +1,19 @@
 const path = require("path");
-const { execShellCommand } = require("../utils/exec");
+const { readdir } = require("fs");
+const { promisify } = require("util");
 const { parse } = require("../utils/parseStages");
+
+const readdirPromisified = promisify(readdir);
 const username = process.env.USERNAME;
 
 exports.getStages = async (req, res, next) => {
   const userPath = path.join(__dirname, '../', '../', '../', username);
-  const projectsLevel = await execShellCommand(`ls ${userPath}`);
-  const projectName = projectsLevel.split('\n')[0];
-  const stagesLevel = await execShellCommand(`ls ${userPath}/${projectName}`);
-  const stageNames = stagesLevel.split('\n').filter(el => {
+  const projectsLevel = await readdirPromisified(userPath);
+  const projectName = projectsLevel[0];
+  const stagesLevel = await readdirPromisified(`${userPath}/${projectName}`);
+  const stageNames = stagesLevel.filter(el => {
     return el && !el.includes('.');
-  })
+  });
 
   try {
     const reconstitutedStages = await parse(stageNames, `${userPath}/${projectName}`);
