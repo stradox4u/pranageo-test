@@ -4,7 +4,7 @@ import { RouterLink } from "vue-router";
 
 <template>
   <div class="w-full bg-gold h-[36px] px-8 py-1">
-    <RouterLink :to="{ name: home }">
+    <RouterLink :to="{ name: 'stages' }">
       <h1 class="font-montserrat font-bold text-xl">PRANAGEO Test</h1>
     </RouterLink>
   </div>
