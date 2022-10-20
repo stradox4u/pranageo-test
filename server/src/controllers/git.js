@@ -1,10 +1,10 @@
 const { readChangedFiles } = require("../utils/parseStages");
-const { pull, commit, push } = require("./gitFunctions");
+const gitFunctions = require("./gitFunctions");
 
 exports.gitPull = async (req, res, next) => {
   const { branch, projectName } = req.body;
   try {
-    const result = await pull(branch ? branch : null);
+    const result = await gitFunctions.pull(branch ? branch : null);
     const files = result.split('\n').filter(el => el.includes('.json'));
     const fileNames = files.map(el => el.split('|')[0].trim());
     const updatedFiles = await readChangedFiles(fileNames, projectName);
@@ -29,7 +29,7 @@ exports.gitCommit = async (req, res, next) => {
     throw error;
   }
   try {
-    await commit(commitMessage);
+    await gitFunctions.commit(commitMessage);
     res.status(200).json({
       message: 'Commit successful',
     })
@@ -45,7 +45,7 @@ exports.gitCommit = async (req, res, next) => {
 exports.gitPush = async (req, res, next) => {
   const { remoteAddress, branch } = req.body;
   try {
-    await push({ remoteAddress: remoteAddress ? remoteAddress : null, branch: branch ? branch : null });
+    await gitFunctions.push({ remoteAddress: remoteAddress ? remoteAddress : null, branch: branch ? branch : null });
     res.status(200).json({
       message: 'Push successful',
     })
