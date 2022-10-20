@@ -1,11 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
+import MyHeader from "./components/MyHeader.vue";
 </script>
 
 <template>
-  <header>
-    <h1>PRANAGEO Test</h1>
-  </header>
+  <div class="w-full">
+    <my-header></my-header>
 
   <RouterView />
+  </div>
 </template>

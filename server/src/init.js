@@ -1,12 +1,15 @@
 "use strict"
 
+require("dotenv").config();
 const { readFile, writeFile } = require("fs");
 const path = require("path");
 const { promisify } = require("util");
 const { execShellCommand } = require("./utils/exec");
 const { commit, push } = require("./controllers/gitFunctions");
 
-const basePath = path.join(__dirname, '../', '../', 'umar');
+const username = process.env.USERNAME;
+
+const basePath = path.join(__dirname, '../', '../', username);
 const cmdLineArgs = process.argv;
 
 const readFilePromisified = promisify(readFile);
@@ -35,20 +38,16 @@ const initGitRepository = async () => {
   await writeFilePromisified(`${basePath}/${blob.project.title}/projectHeader.json`, JSON.stringify(headers));
   
   const promisesArray = [];
-  gitRepoPath = `../umar/${blob.project.title}`;
+  gitRepoPath = `../${username}/${blob.project.title}`;
   
   // Make stage name directories
   blob.project.stages.forEach(el => {
     const stagePath = `${basePath}/${blob.project.title}/${el.title}`;
     promisesArray.push(execShellCommand(`mkdir -p ${stagePath}`));
     
-    // Make cell directories
+    // Write cell contents to file
     el.cells.forEach((cell, index) => {
-      const cellPath = `${stagePath}/${+index + 1}`;
-      promisesArray.push(execShellCommand(`mkdir -p ${cellPath}`));
-
-      // Write cell contents to file
-      const fileName = `${cellPath}/cell${+index + 1}.json`;
+      const fileName = `${stagePath}/cell${+index + 1}.json`;
       promisesArray.push(execShellCommand(`touch ${fileName}`));
       promisesArray.push(writeFilePromisified(fileName, JSON.stringify(cell)));
     });
