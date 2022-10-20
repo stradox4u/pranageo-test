@@ -1,5 +1,6 @@
 const express = require("express");
 require("dotenv").config();
+const cors = require("cors");
 const gitRoutes = require("./routes/git");
 const stageRoutes = require("./routes/stage");
 
@@ -7,6 +8,13 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(cors({
+  origin: process.env.CLIENT_APP_URL,
+  methods: 'GET,PUT,PATCH,POST,DELETE',
+  allowedHeaders: 'Content-Type,Authorization,Accept',
+  credentials: true,
+}));
 
 app.use('/api/v1', gitRoutes);
 app.use('/api/v1', stageRoutes);

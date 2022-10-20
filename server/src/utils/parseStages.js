@@ -1,8 +1,8 @@
-const { execShellCommand } = require("./exec");
 const { promisify } = require("util");
-const { readFile } = require("fs");
+const { readFile, readdir } = require("fs");
 
 const readFilePromisified = promisify(readFile);
+const readdirPromisified = promisify(readdir);
   
 exports.parse = async (stageNames, projectPath) => {
   const stageNamesObject = {};
@@ -25,9 +25,9 @@ const handleStages = async (stageNamePaths) => {
   return Promise.resolve(stageContent)
 }
 const getFileNames = async (path) => {
-  const result = await execShellCommand(`ls ${path}`);
+  const result = await readdirPromisified(path);
 
-  const fileNamesArray = result.split('\n').filter(name => name && name.includes('.json'));
+  const fileNamesArray = result.filter(name => name && name.includes('.json'));
   
   return await readFiles(fileNamesArray, path);
 
