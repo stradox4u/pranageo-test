@@ -23,7 +23,7 @@ const commitChange = () => {
   updateCell({
     name: props.contentKey,
     stageName: props.stageName,
-    content: textValue.value,
+    content: JSON.parse(textValue.value),
   });
 };
 </script>
