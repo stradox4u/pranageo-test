@@ -25,5 +25,14 @@ export const useStagesStore = defineStore("stages", () => {
     }
   };
 
-  return { projectName, stages, getStages };
+  const updateCell = async ({ name, stageName, content }) => {
+    try {
+      const response = await axios.patch("/cell", { name, stageName, content });
+      stages.value[stageName][name] = content;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return { projectName, stages, getStages, updateCell };
 });
