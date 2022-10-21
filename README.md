@@ -3,7 +3,9 @@ Clone the project to a local directory using the command:
 *git clone git@github.com:stradox4u/pranageo-cells.git*
 
 ## Server
-First, fill in the values in the included *.env.sample*, then rename the file to *.env*
+* Navigate to the server folder using the command *cd server*
+* Fill in the values in the included *.env.sample*, then rename the file to *.env*
+* Install dependencies using the command *npm install*
 
 > To parse the included json and initialize the local and remote git repos:
 * First create a remote repository on your git hosting provider of choice, and copy the ssh access string.
@@ -12,8 +14,6 @@ First, fill in the values in the included *.env.sample*, then rename the file to
 This should parse the included json file, create the required directories and write the required files, initialize a local git repository at *\<username\>\<projectName\>* create a commit with the supplied *commit message*, and push the repository to the supplied *remote repository string*
 
 To run the server separately:
-* *cd server*
-* *npm install*
 * *npm run dev*
 
 This would start the local development server for the backend, running on port 8000;
