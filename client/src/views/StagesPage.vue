@@ -4,6 +4,7 @@ import { useStagesStore } from "../stores/stages";
 import { storeToRefs } from "pinia";
 
 import CellInput from "../components/CellInput.vue";
+import LogWidget from "../components/LogWidget.vue";
 
 const stagesStore = useStagesStore();
 
@@ -11,7 +12,7 @@ onMounted(async () => {
   await stagesStore.getStages();
 });
 
-const { stages, projectName } = storeToRefs(stagesStore);
+const { stages, projectName, pullingRepo } = storeToRefs(stagesStore);
 
 const currentStage = ref(null);
 
@@ -44,8 +45,16 @@ const pullRepo = async () => {
         ProjectName:&nbsp;{{ projectName }}
       </h2>
       <div class="w-[20%]">
-        <base-button @click="pullRepo" buttonType="button">Pull</base-button>
+        <base-button
+          @click="pullRepo"
+          buttonType="button"
+          :isDisabled="pullingRepo"
+          >Pull</base-button
+        >
       </div>
+    </div>
+    <div class="w-full">
+      <log-widget></log-widget>
     </div>
     <h3 class="font-nunito text-lg font-semibold mb-3">Stages:</h3>
     <div v-for="(stage, index) in stages" :key="index">
