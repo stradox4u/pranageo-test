@@ -33,7 +33,7 @@ This starts the client and you can visit the application at *http://localhost:51
 ## Docker
 To run the entire application using one command:
 
-* Replace *umar* with the name of your <username> directory, in the server's *Dockerfile*.
+* Replace *umar* with the name of your *\<username\>* directory, in the server's *Dockerfile*.
 * Do the same in the *pranageo_server* service section of the *docker-compose.yml* file.
 * Run *docker compose up* to start the containers serving the client and server.
 
