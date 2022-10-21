@@ -34,7 +34,7 @@ const sortedCells = computed(() => {
 
 const pullRepo = async () => {
   await stagesStore.pullRepo();
-}
+};
 </script>
 
 <template>
