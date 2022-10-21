@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch } from "vue";
+import { storeToRefs } from "pinia";
 import { useStagesStore } from "../stores/stages";
 
 const props = defineProps({
@@ -26,9 +27,10 @@ watch(
   }
 );
 
-const { updateCell } = useStagesStore();
+const stagesStore = useStagesStore();
+const { updatingCell } = storeToRefs(stagesStore);
 const commitChange = () => {
-  updateCell({
+  stagesStore.updateCell({
     name: props.contentKey,
     stageName: props.stageName,
     content: JSON.parse(textValue.value),
@@ -45,6 +47,8 @@ const commitChange = () => {
       class="w-full"
       v-model="textValue"
     ></textarea>
-    <base-button buttonType="submit">Commit</base-button>
+    <base-button buttonType="submit" :isDisabled="updatingCell"
+      >Commit</base-button
+    >
   </form>
 </template>

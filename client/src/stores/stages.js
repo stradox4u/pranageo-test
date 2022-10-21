@@ -5,6 +5,8 @@ import { defineStore } from "pinia";
 export const useStagesStore = defineStore("stages", () => {
   const projectName = ref("");
   const stages = ref({});
+  const updatingCell = ref(false);
+  const pullingRepo = ref(false);
 
   const getStages = async () => {
     try {
@@ -26,15 +28,19 @@ export const useStagesStore = defineStore("stages", () => {
   };
 
   const updateCell = async ({ name, stageName, content }) => {
+    updatingCell.value = true;
     try {
       await axios.patch("/cell", { name, stageName, content });
       stages.value[stageName][name] = content;
+      updatingCell.value = false;
     } catch (err) {
       console.error(err);
+      updatingCell.value = false;
     }
   };
 
   const pullRepo = async () => {
+    pullingRepo.value = true;
     try {
       const { data } = await axios.post("/gitPull", {
         projectName: projectName.value,
@@ -46,10 +52,20 @@ export const useStagesStore = defineStore("stages", () => {
           data.updatedFiles[updatedFile]
         );
       });
+      pullingRepo.value = false;
     } catch (err) {
       console.error(err);
+      pullingRepo.value = false;
     }
   };
 
-  return { projectName, stages, getStages, updateCell, pullRepo };
+  return {
+    projectName,
+    stages,
+    getStages,
+    updateCell,
+    pullRepo,
+    updatingCell,
+    pullingRepo,
+  };
 });
